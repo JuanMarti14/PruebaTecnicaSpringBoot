@@ -1,40 +1,100 @@
 package com.example.pruebaTecnicaSpringBoot.service;
 
+import com.example.pruebaTecnicaSpringBoot.dto.VueloDto;
 import com.example.pruebaTecnicaSpringBoot.model.Vuelo;
 import com.example.pruebaTecnicaSpringBoot.repository.VueloRepository;
+import com.example.pruebaTecnicaSpringBoot.utils.FechaUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
+
 
 @Service
 public class VueloService {
+
+    public Vuelo listarVueloId(int id){
+     return repository.findById(id).orElseThrow(() -> new RuntimeException("Vuelo no encontrado."));
+    }
 
     @Autowired
     VueloRepository repository;
 
     //Crear vuelo con los campos obligatorios
-    public Vuelo crearVuelo(Vuelo vuelo){
+    public Vuelo crearVuelo(Vuelo vuelo) {
         if (vuelo.getNombreVuelo() == null || vuelo.getNombreVuelo().isBlank()) {
             throw new IllegalArgumentException("El nombre del vuelo es obligatorio");
         }
-        if (vuelo.getLugarSalida()==null || vuelo.getLugarSalida().isBlank()){
+        if (vuelo.getLugarSalida() == null || vuelo.getLugarSalida().isBlank()) {
             throw new IllegalArgumentException("El lugar de salida es un campo obligatorio.");
         }
-        if (vuelo.getLugarLlegada()==null || vuelo.getLugarLlegada().isBlank()){
+        if (vuelo.getLugarLlegada() == null || vuelo.getLugarLlegada().isBlank()) {
             throw new IllegalArgumentException("El lugar de llegada es un campo obligatorio.");
         }
-        if (vuelo.getFechaSalida()==null || vuelo.getFechaSalida().isBefore(LocalDate.now())){
+        if (vuelo.getFechaSalida() == null || vuelo.getFechaSalida().isBefore(LocalDate.now())) {
             throw new IllegalArgumentException("La fecha salida es obligatoria y tiene que ser superior a la fecha actual.");
         }
-        if (vuelo.getFechaLlegada()==null || vuelo.getFechaLlegada().isBefore(vuelo.getFechaSalida())){
+        if (vuelo.getFechaLlegada() == null || vuelo.getFechaLlegada().isBefore(vuelo.getFechaSalida())) {
             throw new IllegalArgumentException("La fecha llegada es obligatoria y tiene que ser superior a la fecha salida.");
         }
         return repository.save(vuelo);
     }
 
-    public List<Vuelo> listarVuelos(){
-        return repository.findAll();
+    public List<VueloDto> listarVuelos() {
+        return new ArrayList<>(repository.findAll().stream().sorted(Comparator.comparing(Vuelo::getFechaSalida)).map(this::convertirVueloDto)
+                .collect(Collectors.toList()));
     }
+
+    //Convertir los Vuelos en VuelosDto
+    public VueloDto convertirVueloDto(Vuelo vuelo) {
+        VueloDto dto = new VueloDto();
+        dto.setId(vuelo.getId());
+        dto.setNombreVuelo(vuelo.getNombreVuelo());
+        dto.setEmpresa(vuelo.getEmpresa());
+        dto.setLugarSalida(vuelo.getLugarSalida());
+        dto.setLugarLlegada(vuelo.getLugarLlegada());
+        dto.setFechaSalida(vuelo.getFechaSalida());
+        dto.setFechaLlegada(vuelo.getFechaLlegada());
+        dto.setDuracionVuelo(FechaUtils.calcularDuracioDias(vuelo.getFechaSalida(), vuelo.getFechaLlegada()));
+        return dto;
+    }
+
+    //Listar los Vuelos con los filtros aplicados.
+    public List<VueloDto> listarVuelosFiltrados(String empresa, String destino, LocalDate fechaSalida, String ordenarPor) {
+        return repository.findAll().stream()
+                .filter(v -> empresa == null || v.getEmpresa().equalsIgnoreCase(empresa))
+                .filter(v -> destino == null || v.getLugarLlegada().equalsIgnoreCase(destino))
+                .filter(v -> fechaSalida == null || v.getFechaSalida().equals(fechaSalida))
+                .sorted(getComparator(ordenarPor)).map(this::convertirVueloDto)
+                .collect(Collectors.toList());
+    }
+
+    private Comparator<Vuelo> getComparator(String ordenarPor) {
+            //Si recibe el valor destino en el @RequestPAram ordena por lugarLlegada
+            if (ordenarPor != null && ordenarPor.equalsIgnoreCase("lugarLlegada")) {
+            return Comparator.comparing(Vuelo::getLugarLlegada);
+        }
+        // Si recibe cualquier otro valor ordena por
+        return Comparator.comparing(Vuelo::getFechaSalida);
+    }
+
+    public void eliminarVuelo(int id){
+        repository.delete(id);
+    }
+
+    public Vuelo actualizarVuelo(int id, Vuelo vueloActualizado){
+        Vuelo vuelo = repository.findById(id).orElseThrow(() -> new IllegalArgumentException("Vuelo no encontrado."));
+        vuelo.setNombreVuelo(vueloActualizado.getNombreVuelo());
+        vuelo.setEmpresa(vueloActualizado.getEmpresa());
+        vuelo.setLugarSalida(vueloActualizado.getLugarSalida());
+        vuelo.setLugarLlegada(vueloActualizado.getLugarLlegada());
+        vuelo.setFechaSalida(vueloActualizado.getFechaSalida());
+        vuelo.setFechaLlegada(vueloActualizado.getFechaLlegada());
+        return repository.save(vuelo);
+    }
+
 }
