@@ -46,12 +46,14 @@ public class VueloRepository {
         return vuelos;
     }
 
-    public Optional<Vuelo> findById(int id){
-        return vuelos.stream().filter(v -> v.getId() == id).findFirst();
+    public Vuelo findById(int id){
+        return vuelos.stream().filter(v -> v.getId() == id).findFirst()
+                .orElseThrow(()-> new RuntimeException("Vuelo con id " + id + " no encontrado."));
     }
 
     public void delete(int id){
-        vuelos.remove(id);
+        Vuelo vueloAEliminar = findById(id);
+        vuelos.remove(vueloAEliminar);
     }
 
     public List<Vuelo> search(String empresa, String destino, LocalDate fechaSalida){

@@ -41,7 +41,7 @@ public class VueloController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<String> eliminarVuelo(int id){
+    public ResponseEntity<String> eliminarVuelo(@PathVariable int id){
         service.eliminarVuelo(id);
         return ResponseEntity.ok("Vuelo eliminado correctamente.");
     }

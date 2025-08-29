@@ -13,12 +13,11 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
 @Service
 public class VueloService {
 
     public Vuelo listarVueloId(int id){
-     return repository.findById(id).orElseThrow(() -> new RuntimeException("Vuelo no encontrado."));
+     return repository.findById(id);
     }
 
     @Autowired
@@ -26,6 +25,9 @@ public class VueloService {
 
     //Crear vuelo con los campos obligatorios
     public Vuelo crearVuelo(Vuelo vuelo) {
+        if (vuelo.getEmpresa() == null || vuelo.getEmpresa().isBlank()) {
+            throw new IllegalArgumentException("El nombre de la compañia aerea es obligatorio");
+        }
         if (vuelo.getNombreVuelo() == null || vuelo.getNombreVuelo().isBlank()) {
             throw new IllegalArgumentException("El nombre del vuelo es obligatorio");
         }
@@ -87,7 +89,7 @@ public class VueloService {
     }
 
     public Vuelo actualizarVuelo(int id, Vuelo vueloActualizado){
-        Vuelo vuelo = repository.findById(id).orElseThrow(() -> new IllegalArgumentException("Vuelo no encontrado."));
+        Vuelo vuelo = repository.findById(id);
         vuelo.setNombreVuelo(vueloActualizado.getNombreVuelo());
         vuelo.setEmpresa(vueloActualizado.getEmpresa());
         vuelo.setLugarSalida(vueloActualizado.getLugarSalida());
