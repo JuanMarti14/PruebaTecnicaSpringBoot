@@ -15,7 +15,7 @@ public class VueloRepository {
     private int contadorId = 0;
 
     //Para crear la lista precargada de vuelos
-    public VueloRepository(){
+    public VueloRepository() {
         crearListaPrecargadaDeVuelos();
     }
 
@@ -33,33 +33,30 @@ public class VueloRepository {
     }
 
 
-
     public Vuelo save(Vuelo vuelo) {
-        if (vuelo.getId() == 0) {
-            vuelo.setId(++contadorId);
-        }
+        vuelo.setId(++contadorId);
         vuelos.add(vuelo);
         return vuelo;
     }
 
-    public List<Vuelo> findAll(){
+    public List<Vuelo> findAll() {
         return vuelos;
     }
 
-    public Vuelo findById(int id){
+    public Vuelo findById(int id) {
         return vuelos.stream().filter(v -> v.getId() == id).findFirst()
-                .orElseThrow(()-> new RuntimeException("Vuelo con id " + id + " no encontrado."));
+                .orElseThrow(() -> new RuntimeException("Vuelo con id " + id + " no encontrado."));
     }
 
-    public void delete(int id){
+    public void delete(int id) {
         Vuelo vueloAEliminar = findById(id);
         vuelos.remove(vueloAEliminar);
     }
 
-    public List<Vuelo> search(String empresa, String destino, LocalDate fechaSalida){
+    public List<Vuelo> search(String empresa, String destino, LocalDate fechaSalida) {
         return vuelos.stream().filter(v -> empresa == null || v.getEmpresa().equalsIgnoreCase(empresa))
                 .filter(v -> destino == null || v.getLugarLlegada().equalsIgnoreCase(destino))
-                .filter(v-> fechaSalida == null || v.getFechaSalida().equals(fechaSalida))
+                .filter(v -> fechaSalida == null || v.getFechaSalida().equals(fechaSalida))
                 .toList();
     }
 

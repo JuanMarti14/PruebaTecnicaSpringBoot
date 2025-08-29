@@ -1,0 +1,188 @@
+{
+	"info": {
+		"_postman_id": "f38e07e0-367c-40fb-9468-5c90b5512f40",
+		"name": "Vuelos",
+		"description": "### Welcome to Postman! This is your first collection. \n\nCollections are your starting point for building and testing APIs. You can use this one to:\n\n• Group related requests\n• Test your API in real-world scenarios\n• Document and share your requests\n\nUpdate the name and overview whenever you’re ready to make it yours.\n\n[Learn more about Postman Collections.](https://learning.postman.com/docs/collections/collections-overview/)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "47779802",
+		"_collection_link": "https://www.postman.com/workspace/Juan's-Workspace~0a9a6c6b-6e14-4ddd-839e-dda3099943b1/collection/47779802-f38e07e0-367c-40fb-9468-5c90b5512f40?action=share&source=collection_link&creator=47779802"
+	},
+	"item": [
+		{
+			"name": "Vuelos",
+			"item": [
+				{
+					"name": "Vuelos",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8080/vuelos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"vuelos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Vuelo id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/vuelos/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"vuelos",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Vuelos Filtros",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/vuelos?empresa=air europa&ordenarPor=lugarLlegada",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"vuelos"
+							],
+							"query": [
+								{
+									"key": "fechaDeSalida",
+									"value": "2025-11-14",
+									"disabled": true
+								},
+								{
+									"key": "empresa",
+									"value": "air europa"
+								},
+								{
+									"key": "lugarLlegada",
+									"value": "liverpool",
+									"disabled": true
+								},
+								{
+									"key": "ordenarPor",
+									"value": "lugarLlegada"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Vuelos",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 0,\r\n    \"nombreVuelo\": \"HPR-049S\",\r\n    \"empresa\": \"Ryanair\",\r\n    \"lugarSalida\": \"Valencia\",\r\n    \"lugarLlegada\": \"Mahon\",\r\n    \"fechaSalida\": \"2025-12-12\",\r\n    \"fechaLlegada\": \"2025-12-12\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/vuelos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"vuelos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Vuelo id",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 3,\r\n    \"nombreVuelo\": \"HTK-054S\",\r\n    \"empresa\": \"Ryanair\",\r\n    \"lugarSalida\": \"Valencia\",\r\n    \"lugarLlegada\": \"Dublín\",\r\n    \"fechaSalida\": \"2025-12-02\",\r\n    \"fechaLlegada\": \"2025-12-02\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/vuelos/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"vuelos",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Vuelo",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"titulo\":\"El Hobbit\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/vuelos/12",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"vuelos",
+								"12"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
