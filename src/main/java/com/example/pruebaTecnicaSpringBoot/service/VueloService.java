@@ -66,17 +66,17 @@ public class VueloService {
     }
 
     //Listar los Vuelos con los filtros aplicados.
-    public List<VueloDto> listarVuelosFiltrados(String empresa, String destino, LocalDate fechaSalida, String ordenarPor) {
+    public List<VueloDto> listarVuelosFiltrados(String empresa, String lugarLlegada, LocalDate fechaSalida, String ordenarPor) {
         return repository.findAll().stream()
                 .filter(v -> empresa == null || v.getEmpresa().equalsIgnoreCase(empresa))
-                .filter(v -> destino == null || v.getLugarLlegada().equalsIgnoreCase(destino))
+                .filter(v -> lugarLlegada == null || v.getLugarLlegada().equalsIgnoreCase(lugarLlegada))
                 .filter(v -> fechaSalida == null || v.getFechaSalida().equals(fechaSalida))
                 .sorted(getComparator(ordenarPor)).map(this::convertirVueloDto)
                 .collect(Collectors.toList());
     }
 
     private Comparator<Vuelo> getComparator(String ordenarPor) {
-            //Si recibe el valor destino en el @RequestPAram ordena por lugarLlegada
+            //Si recibe el valor lugarLlegada en el @RequestPAram ordena por lugarLlegada
             if (ordenarPor != null && ordenarPor.equalsIgnoreCase("lugarLlegada")) {
             return Comparator.comparing(Vuelo::getLugarLlegada);
         }
