@@ -21,7 +21,7 @@ public class VueloService {
     }
 
     @Autowired
-    VueloRepository repository;
+    private VueloRepository repository;
 
     //Crear vuelo con los campos obligatorios
     public Vuelo crearVuelo(Vuelo vuelo) {

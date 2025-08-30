@@ -16,7 +16,7 @@ import java.util.List;
 public class VueloController {
 
     @Autowired
-    VueloService service;
+    private VueloService service;
 
    /* Anotamos los @RequestPar(required = false) para que no sean campos obligatorios
      y si no los ponemos no se tengan en cuenta para el filtro.*/
