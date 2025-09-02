@@ -18,3 +18,6 @@ ser anterior a la fecha de salida.
 En el enpoint PUT /vuelos/{id} nos permite actualizar un vuelo introduciendo el id. 
 
 Por último tenemos el endpoint DELETE / vuelos/{id} -> donde nos permite eliminar un vuelo introduciendo el id del vuelo. 
+
+La API esta diseñada para funcionar en memoria, sin conexión a base de datos. 
+Hemos creado en el repositorio una carpeta con la collection de Postman para poder probar todos los endpoints. 
