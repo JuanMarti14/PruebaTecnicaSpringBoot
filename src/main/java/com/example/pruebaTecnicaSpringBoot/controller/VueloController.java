@@ -34,7 +34,6 @@ public class VueloController {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.crearVuelo(vuelo));
     }
 
-
     @GetMapping("{id}")
     public ResponseEntity<Vuelo> listarVueloId(@PathVariable int id){
         return ResponseEntity.ok().body(service.listarVueloId(id));

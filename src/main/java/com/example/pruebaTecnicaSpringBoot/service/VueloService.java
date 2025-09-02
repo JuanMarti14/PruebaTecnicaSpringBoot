@@ -45,7 +45,6 @@ public class VueloService {
         }
     }
 
-
     public Vuelo crearVuelo(Vuelo vuelo) {
         validarVuelos(vuelo);
         return repository.save(vuelo);

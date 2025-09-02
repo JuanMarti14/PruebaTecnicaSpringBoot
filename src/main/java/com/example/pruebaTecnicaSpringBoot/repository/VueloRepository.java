@@ -7,7 +7,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.*;
 
-
 @Repository
 public class VueloRepository {
 
@@ -31,7 +30,6 @@ public class VueloRepository {
         save(new Vuelo(0, "BAR-056V", "Ryanair", "Barcelona", "Berlin", LocalDate.of(2025, 10, 11), LocalDate.of(2025, 10, 11)));
         save(new Vuelo(0, "MAD-044M", "Iberia", "Madrid", "Sydney", LocalDate.of(2025, 9, 12), LocalDate.of(2025, 9, 14)));
     }
-
 
     public Vuelo save(Vuelo vuelo) {
         vuelo.setId(++contadorId);
