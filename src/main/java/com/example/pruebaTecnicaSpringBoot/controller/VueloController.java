@@ -23,10 +23,10 @@ public class VueloController {
     @GetMapping
     public ResponseEntity<List<VueloDto>> listarVuelos(@RequestParam(required = false) String empresa,
                                                       @RequestParam(required = false) String lugarLlegada,
-                                                      @RequestParam(required = false) LocalDate fechaDeSalida,
+                                                      @RequestParam(required = false) LocalDate fechaSalida,
                                                       @RequestParam(required = false) String ordenarPor){
         return ResponseEntity.ok()
-                .body(service.listarVuelosFiltrados(empresa,lugarLlegada,fechaDeSalida,ordenarPor));
+                .body(service.listarVuelosFiltrados(empresa,lugarLlegada,fechaSalida,ordenarPor));
     }
 
     @PostMapping

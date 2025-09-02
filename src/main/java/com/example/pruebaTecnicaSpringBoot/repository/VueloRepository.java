@@ -53,12 +53,15 @@ public class VueloRepository {
         vuelos.remove(vueloAEliminar);
     }
 
-    public List<Vuelo> search(String empresa, String destino, LocalDate fechaSalida) {
-        return vuelos.stream().filter(v -> empresa == null || v.getEmpresa().equalsIgnoreCase(empresa))
-                .filter(v -> destino == null || v.getLugarLlegada().equalsIgnoreCase(destino))
-                .filter(v -> fechaSalida == null || v.getFechaSalida().equals(fechaSalida))
-                .toList();
+    public Vuelo update(int id, Vuelo vueloActualizado) {
+        Vuelo vuelo = findById(id);
+        vuelo.setNombreVuelo(vueloActualizado.getNombreVuelo());
+        vuelo.setEmpresa(vueloActualizado.getEmpresa());
+        vuelo.setLugarSalida(vueloActualizado.getLugarSalida());
+        vuelo.setLugarLlegada(vueloActualizado.getLugarLlegada());
+        vuelo.setFechaSalida(vueloActualizado.getFechaSalida());
+        vuelo.setFechaLlegada(vueloActualizado.getFechaLlegada());
+        return vuelo;
     }
-
 
 }

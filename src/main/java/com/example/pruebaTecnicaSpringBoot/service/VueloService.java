@@ -16,15 +16,15 @@ import java.util.stream.Collectors;
 @Service
 public class VueloService {
 
-    public Vuelo listarVueloId(int id){
-     return repository.findById(id);
+    public Vuelo listarVueloId(int id) {
+        return repository.findById(id);
     }
 
     @Autowired
     private VueloRepository repository;
 
-    //Crear vuelo con los campos obligatorios
-    public Vuelo crearVuelo(Vuelo vuelo) {
+    //Validar vuelo con los campos obligatorios
+    public void validarVuelos(Vuelo vuelo) {
         if (vuelo.getEmpresa() == null || vuelo.getEmpresa().isBlank()) {
             throw new IllegalArgumentException("El nombre de la compañia aerea es obligatorio");
         }
@@ -43,6 +43,11 @@ public class VueloService {
         if (vuelo.getFechaLlegada() == null || vuelo.getFechaLlegada().isBefore(vuelo.getFechaSalida())) {
             throw new IllegalArgumentException("La fecha llegada es obligatoria y tiene que ser superior a la fecha salida.");
         }
+    }
+
+
+    public Vuelo crearVuelo(Vuelo vuelo) {
+        validarVuelos(vuelo);
         return repository.save(vuelo);
     }
 
@@ -75,28 +80,24 @@ public class VueloService {
                 .collect(Collectors.toList());
     }
 
+    //Establecer el criterio de ordenación de la lista
     private Comparator<Vuelo> getComparator(String ordenarPor) {
-            //Si recibe el valor lugarLlegada en el @RequestPAram ordena por lugarLlegada
-            if (ordenarPor != null && ordenarPor.equalsIgnoreCase("lugarLlegada")) {
+        //Si recibe el valor lugarLlegada en el @RequestPAram ordena por lugarLlegada
+        if (ordenarPor != null && ordenarPor.equalsIgnoreCase("lugarLlegada")) {
             return Comparator.comparing(Vuelo::getLugarLlegada);
         }
         // Si recibe cualquier otro valor ordena por
         return Comparator.comparing(Vuelo::getFechaSalida);
     }
 
-    public void eliminarVuelo(int id){
+    public void eliminarVuelo(int id) {
         repository.delete(id);
     }
 
-    public Vuelo actualizarVuelo(int id, Vuelo vueloActualizado){
-        Vuelo vuelo = repository.findById(id);
-        vuelo.setNombreVuelo(vueloActualizado.getNombreVuelo());
-        vuelo.setEmpresa(vueloActualizado.getEmpresa());
-        vuelo.setLugarSalida(vueloActualizado.getLugarSalida());
-        vuelo.setLugarLlegada(vueloActualizado.getLugarLlegada());
-        vuelo.setFechaSalida(vueloActualizado.getFechaSalida());
-        vuelo.setFechaLlegada(vueloActualizado.getFechaLlegada());
-        return repository.save(vuelo);
+    public Vuelo actualizarVuelo(int id, Vuelo vueloActualizado) {
+        repository.findById(id);
+        validarVuelos(vueloActualizado);
+        return repository.update(id, vueloActualizado);
     }
 
 }
